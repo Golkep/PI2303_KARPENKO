@@ -4,6 +4,11 @@ class Resources {
   int _water = 250;
   int _cash = 0;
 
+  // Цены
+  static const int ESPRESSO_PRICE = 100;
+  static const int CAPPUCCINO_PRICE = 150;
+  static const int AMERICANO_PRICE = 120;
+
   int get beans => _beans;
   int get milk => _milk;
   int get water => _water;

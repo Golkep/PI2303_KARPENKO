@@ -58,11 +58,13 @@ class _CoffeeScreenState extends State<CoffeeScreen>
   Future<void> _makeCoffee() async {
     bool canMake = false;
     String coffeeName = '';
-    Future<List<String>> Function() method;
+    int price = 0;
+    late Future<List<String>> Function() method;
 
     if (_selectedCoffee == 'espresso') {
-      if (!_resources.canMakeEspresso()) {
-        _showSnackBar('Недостаточно ресурсов');
+      price = 100;
+      if (_moneyInput < price || !_resources.canMakeEspresso()) {
+        _showSnackBar('Недостаточно денег или ресурсов (нужно $price)');
         return;
       }
       canMake = true;
@@ -70,8 +72,9 @@ class _CoffeeScreenState extends State<CoffeeScreen>
       method = _maker.makeEspresso;
       _resources.useEspresso();
     } else if (_selectedCoffee == 'cappuccino') {
-      if (!_resources.canMakeCappuccino()) {
-        _showSnackBar('Недостаточно ресурсов');
+      price = 150;
+      if (_moneyInput < price || !_resources.canMakeCappuccino()) {
+        _showSnackBar('Недостаточно денег или ресурсов (нужно $price)');
         return;
       }
       canMake = true;
@@ -86,7 +89,9 @@ class _CoffeeScreenState extends State<CoffeeScreen>
 
       try {
         await method();
-        _showSnackBar('$coffeeName готов!');
+        _moneyInput -= price;
+        _moneyController.text = _moneyInput.toString();
+        _showSnackBar('$coffeeName готов! Осталось денег: $_moneyInput');
         setState(() {});
       } catch (e) {
         _showSnackBar('Ошибка: $e');
@@ -158,14 +163,14 @@ class _CoffeeScreenState extends State<CoffeeScreen>
                   child: Column(
                     children: [
                       RadioListTile<String>(
-                        title: const Text('espresso'),
+                        title: const Text('espresso (100)'),
                         value: 'espresso',
                         groupValue: _selectedCoffee,
                         onChanged: (value) =>
                             setState(() => _selectedCoffee = value!),
                       ),
                       RadioListTile<String>(
-                        title: const Text('cappuccino'),
+                        title: const Text('cappuccino (150)'),
                         value: 'cappuccino',
                         groupValue: _selectedCoffee,
                         onChanged: (value) =>
