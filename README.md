@@ -6,6 +6,8 @@
 - **ФИО:** Andrey Karpenko
 - **Назначение:** Лабораторные работы по курсу мобильной разработки на Flutter
 
+- ![Android](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/200px-Android_robot.svg.png)
+
 ## Список лабораторных работ
 
 1. ЛР1 - Введение во Flutter (создание базового приложения с счётчиком)
